@@ -1,6 +1,6 @@
 const typeDefs = `
 type Query {
-    me: [User]
+    me: [User]!
 }
 // still need to create an input type to handle all parameters 
 type Mutation {
@@ -11,24 +11,24 @@ type Mutation {
 }
 
 type User {
-    _id: ID
-    username: String
-    email: String
+    _id: ID!
+    username: String!
+    email: String!
     bookCount: Int
     savedBooks: [Book]
 }
 
 type Book {
-    bookId: id
-    authors: [String]
-    description: String
-    title: String
-    image: String
-    link: String
+    bookId: id!
+    authors: [String!]
+    description: String!
+    title: String!
+    image: String!
+    link: String!
 }
 
 type Auth {
     token: ID!
-    user: [User]
+    user: [User]!
 }
 `

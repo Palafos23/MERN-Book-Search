@@ -8,12 +8,12 @@ const resolvers = {
     },
     Mutation: {
         login: async (parent, args) => {
-            const book = await User.findOneAndUpdate();
-            return book;
+            const user = await User.FindOne();
+            return user;
           },
         addUser: async (parent, args) => {
-            const book = await User.findOneAndUpdate();
-            return book;
+            const newUser = await User.create();
+            return newUser;
           },  
         saveBook: async (parent, args) => {
             const book = await User.findOneAndUpdate();

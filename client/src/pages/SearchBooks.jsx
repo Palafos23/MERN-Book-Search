@@ -10,6 +10,7 @@ import {
 
 import Auth from '../utils/auth';
 import { useMutation, useQuery } from '@apollo/client';
+import { useParams, Link } from 'react-router-dom';
 import { QUERY_GET_ME } from '../utils/queries';
 import { SAVE_BOOK } from '../utils/queries';
 
@@ -61,10 +62,18 @@ const SearchBooks = () => {
   };
 
   // create function to handle saving a book to our database
-  const handleSaveBook = async (bookId) => {
+  const handleSaveBook = async () => {
     // find the book in `searchedBooks` state by the matching id
-    const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
+    //const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
+    const { id } = useParams();
 
+    const { loading, data } = useQuery(QUERY_GET_ME, {
+      variables: { _id: id },
+    });
+  
+    const savedBooks = data?.me || [];
+  
+    const [saveBook, { error }] = useMutation(SAVE_BOOK);
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -73,14 +82,14 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await saveBook(bookToSave, token);
+      const response = await saveBook(savedBooks, token);
 
       if (!response.ok) {
         throw new Error('something went wrong!');
       }
 
       // if book successfully saves to user's account, save book id to state
-      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+      setSavedBookIds([...savedBookIds, savedBooks.id]);
     } catch (err) {
       console.error(err);
     }

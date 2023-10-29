@@ -3,8 +3,11 @@ const { User } = require('../models');
 const resolvers = {
     Query: {
         users: async () => {
-            return User.find({})
+            return User.find().populate('');
         },
+        user: async () => {
+          return User.find().populate('');
+      },
     },
     Mutation: {
         login: async (parent, args) => {

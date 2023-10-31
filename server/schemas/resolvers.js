@@ -2,12 +2,10 @@ const { User } = require('../models');
 
 const resolvers = {
     Query: {
-        users: async () => {
-            return User.find().populate('');
-        },
-        user: async () => {
-          return User.find().populate('');
-      },
+        me: async (parent, args) => {
+            const user = await User.FindOne();
+            return user;
+          },
     },
     Mutation: {
         login: async (parent, args) => {

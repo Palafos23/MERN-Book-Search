@@ -6,14 +6,16 @@ const resolvers = {
     Query: {
         me: async (parent, args, context) => {
             if (context.user) {
-            const user = await User.FindOne({_id: context.user._id}).populate('savedBooks');
+            const user = await User.FindOne({_id: context.user._id}).select('-__v -password')
+            .populate('savedBooks');
+
             return user;
           }
           throw AuthenticationError;
     },
 },
     Mutation: {
-        login: async (parent, { email, password}) => {
+        login: async (parent, { email, password }) => {
 
             const user = await User.FindOne({email});
             if (!user) {
